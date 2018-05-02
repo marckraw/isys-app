@@ -3,9 +3,13 @@ import logo from "./logo.svg";
 import Requester from './helpers/Requester';
 import "./App.css";
 
+import { categoriesEndpointInitialData } from './helpers/initial-data';
+
 class App extends Component {
     constructor() {
         super();
+
+        localStorage.setItem('categories', JSON.stringify(categoriesEndpointInitialData));
 
         this.requester = new Requester();
     }
@@ -21,7 +25,7 @@ class App extends Component {
         this.requester.getCategories().then(
             response => {
                 this.setState({
-                    categories: response.data.catgories,
+                    categories: response.data.categories,
                 });
 
                 console.log(response);

@@ -1,10 +1,12 @@
 import axios from 'axios';
+import { MockedBackend } from './MockedBackend';
 
 class Requester {
     constructor() {
-        // this.apiUrl = 'http://dotnet.demos.i-sklep.pl/rest_api/shop_api/v1/';
+        /* when the CORS and proxy problem will be solved */
+        // this.categoryRESTEndpoint = `/api/categories`;
 
-        this.categoryRESTEndpoint = `/api/categories`;
+        this.mockedBackend = new MockedBackend();
     }
 
     // TODO: Implement using basic auth to login to API
@@ -22,7 +24,15 @@ class Requester {
     }
 
     getCategories() {
-        return axios.get(this.categoryRESTEndpoint);
+        const auth = {
+            login: 'rest',
+            password: 'gBict?3J',
+        };
+
+        return this.mockedBackend.getCategories(auth);
+
+
+        // return axios.get(this.categoryRESTEndpoint);
     }
 };
 

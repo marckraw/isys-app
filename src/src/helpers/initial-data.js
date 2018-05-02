@@ -1,0 +1,350 @@
+export const categoriesEndpointInitialData = {
+    "version": "v1",
+    "success": true,
+    "data": {
+        "categories": [
+            {
+                "id": 1,
+                "parent_id": null,
+                "is_visible": true,
+                "name": "Root",
+                "description": "Nice one",
+                "picture_filename": "root.png",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 16,
+                "parent_id": 1,
+                "is_visible": true,
+                "name": "Odzież",
+                "description": "",
+                "picture_filename": "30cbb1cc7e3c9d7180c3f84f0ef4068d.jpg",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 21,
+                "parent_id": 16,
+                "is_visible": true,
+                "name": "Bluzki",
+                "description": " ",
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 38,
+                "parent_id": 16,
+                "is_visible": true,
+                "name": "Sukienki",
+                "description": "",
+                "picture_filename": "",
+                "ordering": 1,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 19,
+                "parent_id": 16,
+                "is_visible": true,
+                "name": "Spódnice",
+                "description": " ",
+                "picture_filename": "",
+                "ordering": 2,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 39,
+                "parent_id": 16,
+                "is_visible": true,
+                "name": "Spodnie",
+                "description": "",
+                "picture_filename": "",
+                "ordering": 3,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 58,
+                "parent_id": 1,
+                "is_visible": true,
+                "name": "Akcesoria",
+                "description": "",
+                "picture_filename": "c5f1044389d63aaedb3a40b80b9b08e6.jpg",
+                "ordering": 1,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 53,
+                "parent_id": 58,
+                "is_visible": false,
+                "name": "Torebki",
+                "description": " ",
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 156,
+                "parent_id": 53,
+                "is_visible": true,
+                "name": "Torby",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 157,
+                "parent_id": 53,
+                "is_visible": false,
+                "name": "Torbiele",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 1,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 59,
+                "parent_id": 58,
+                "is_visible": true,
+                "name": "Rajstopy",
+                "description": "",
+                "picture_filename": "",
+                "ordering": 1,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 26,
+                "parent_id": 59,
+                "is_visible": true,
+                "name": "Styl Gotycki",
+                "description": "",
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 140,
+                "parent_id": 58,
+                "is_visible": false,
+                "name": "Czapki",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 2,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 166,
+                "parent_id": 140,
+                "is_visible": true,
+                "name": "Kapelusze",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 167,
+                "parent_id": 140,
+                "is_visible": true,
+                "name": "Fedory",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 1,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 146,
+                "parent_id": 58,
+                "is_visible": true,
+                "name": "Plecaki",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 3,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 153,
+                "parent_id": 146,
+                "is_visible": true,
+                "name": "Małe plecaczki",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 154,
+                "parent_id": 146,
+                "is_visible": true,
+                "name": "Duże plecaki",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 1,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 17,
+                "parent_id": 1,
+                "is_visible": true,
+                "name": "Trendy",
+                "description": " ",
+                "picture_filename": "",
+                "ordering": 2,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 27,
+                "parent_id": 17,
+                "is_visible": true,
+                "name": "Militarne Manewry",
+                "description": " ",
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 128,
+                "parent_id": 1,
+                "is_visible": true,
+                "name": "Perfumy",
+                "description": " ",
+                "picture_filename": "",
+                "ordering": 3,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 136,
+                "parent_id": 128,
+                "is_visible": true,
+                "name": "Versace",
+                "description": "",
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 137,
+                "parent_id": 128,
+                "is_visible": true,
+                "name": "Calvin",
+                "description": ":)",
+                "picture_filename": "",
+                "ordering": 1,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 138,
+                "parent_id": 1,
+                "is_visible": true,
+                "name": "Rolnictwo",
+                "description": "Rolnicze itemy",
+                "picture_filename": "",
+                "ordering": 4,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 139,
+                "parent_id": 138,
+                "is_visible": true,
+                "name": "Gumiaki",
+                "description": "Dobre do rolnictwa",
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 158,
+                "parent_id": 138,
+                "is_visible": true,
+                "name": "Rolki",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 1,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 159,
+                "parent_id": 138,
+                "is_visible": true,
+                "name": "Kapelusze z siana",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 2,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 160,
+                "parent_id": 1,
+                "is_visible": false,
+                "name": "Obuwie",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 5,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 169,
+                "parent_id": 160,
+                "is_visible": true,
+                "name": "Letnie",
+                "description": "Typowe letnie obuwie i nie tylko",
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 171,
+                "parent_id": 160,
+                "is_visible": true,
+                "name": "Zimowe",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 1,
+                "source_id": null,
+                "symbol": null
+            },
+            {
+                "id": 172,
+                "parent_id": 171,
+                "is_visible": true,
+                "name": "Łyżwy",
+                "description": null,
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
+            }
+        ]
+    },
+    "error": null
+}
