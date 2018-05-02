@@ -29,7 +29,21 @@ class Requester {
             password: 'gBict?3J',
         };
 
+        console.log("from get categories requestesr");
+
         return this.mockedBackend.getCategories(auth);
+
+
+        // return axios.get(this.categoryRESTEndpoint, auth);
+    }
+
+    getCategory(id) {
+        const auth = {
+            login: 'rest',
+            password: 'gBict?3J',
+        };
+
+        return this.mockedBackend.getCategory(auth, id);
 
 
         // return axios.get(this.categoryRESTEndpoint, auth);

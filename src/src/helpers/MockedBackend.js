@@ -1,7 +1,6 @@
-import { UNAUTHORIZED } from "./mocked-responses";
+import { UNAUTHORIZED, RESOURCE_NOT_FOUND } from "./mocked-responses";
 
 export class MockedBackend {
-    constructor() {
         // these are method for making things in localstorage
         // localStorage.setItem();
         // localStorage.getItem();
@@ -10,7 +9,6 @@ export class MockedBackend {
         // these are method to serialize and normalize data from and to localstorage
         // JSON.parse();
         // JSON.stringify();
-    }
 
     // TODO: Implement using basic auth to login to API
 
@@ -29,10 +27,52 @@ export class MockedBackend {
     getCategories(auth) {
         return new Promise((resolve, reject) => {
             if (auth.login === "rest" && auth.password === "gBict?3J") {
-                const categories = localStorage.getItem('categories');
-                const categoriesJSON = JSON.parse(categories);
+                const categoriesLS = localStorage.getItem('categories');
+                const categoriesJSON = JSON.parse(categoriesLS);
 
-                resolve(categoriesJSON);
+                const response = {
+                    "version": "v1",
+                    "success": true,
+                    "error": null,
+                    "data": {
+                        "categories": categoriesJSON.data.categories,
+                    },
+                }
+
+                resolve(response);
+            } else {
+                reject(UNAUTHORIZED);
+            }
+        });
+    }
+
+    getCategory(auth, id) {
+        return new Promise((resolve, reject) => {
+            if (auth.login === "rest" && auth.password === "gBict?3J") {
+                const categoriesLS = localStorage.getItem('categories');
+                const categoriesJSON = JSON.parse(categoriesLS);
+
+                console.log(categoriesJSON.data.categories);
+
+                const category = categoriesJSON.data.categories.filter( category => {
+                    console.log(category.id + " ? " + id);
+                    return category.id === id;
+                })[0];
+
+
+                if (category) {
+
+                    const response = {
+                        version: "v1",
+                        success: true,
+                        error: null,
+                        data: { category },
+                    }
+
+                    resolve(response);
+                } else {
+                    reject(RESOURCE_NOT_FOUND)
+                }
             } else {
                 reject(UNAUTHORIZED);
             }
@@ -41,3 +81,4 @@ export class MockedBackend {
 };
 
 export default MockedBackend;
+

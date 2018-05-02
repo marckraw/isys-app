@@ -343,6 +343,17 @@ export const categoriesEndpointInitialData = {
                 "ordering": 0,
                 "source_id": null,
                 "symbol": null
+            },
+            {
+                "id": 173,
+                "parent_id": 38,
+                "is_visible": true,
+                "name": "Test category for parent 38",
+                "description": "Test category for parent 38",
+                "picture_filename": "",
+                "ordering": 0,
+                "source_id": null,
+                "symbol": null
             }
         ]
     },
