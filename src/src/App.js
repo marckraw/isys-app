@@ -35,6 +35,10 @@ class App extends Component {
         );
     }
 
+    onClickChangeLocalStorage = () => {
+        localStorage.setItem('categorier', 'something funny');
+    }
+
     render() {
         return (
             <div className="App">
@@ -46,6 +50,7 @@ class App extends Component {
                 To get started, edit <code>src/App.js</code> and save to reload.
             </p>
             <button onClick={this.onClickHandler}>click me!</button>
+            <button onClick={this.onClickChangeLocalStorage}>change local storage</button>
             </div>
         );
     }

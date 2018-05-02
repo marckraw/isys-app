@@ -1,3 +1,5 @@
+import { UNAUTHORIZED } from "./mocked-responses";
+
 export class MockedBackend {
     constructor() {
         // these are method for making things in localstorage
@@ -30,10 +32,9 @@ export class MockedBackend {
                 const categories = localStorage.getItem('categories');
                 const categoriesJSON = JSON.parse(categories);
 
-                // resolve('OK');
                 resolve(categoriesJSON);
             } else {
-                reject('error');
+                reject(UNAUTHORIZED);
             }
         });
     }

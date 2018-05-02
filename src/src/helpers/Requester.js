@@ -32,7 +32,7 @@ class Requester {
         return this.mockedBackend.getCategories(auth);
 
 
-        // return axios.get(this.categoryRESTEndpoint);
+        // return axios.get(this.categoryRESTEndpoint, auth);
     }
 };
 
