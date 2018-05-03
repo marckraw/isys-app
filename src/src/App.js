@@ -66,6 +66,26 @@ class App extends Component {
         }
     }
 
+    goToCategory = (event) => {
+        const categoryId = parseInt(event.target.value, 10);
+
+        let breadcrumbs = this.state.breadcrumbs;
+        breadcrumbs = breadcrumbs.slice(0, breadcrumbs.indexOf(categoryId));
+
+        const presentCategory = categoryId;
+        const previousCategory = breadcrumbs[breadcrumbs.length-1];
+
+        const filteredCategories = this.state.categories
+            .filter( category => category.parent_id === presentCategory );
+
+        this.setState({
+            filteredCategories,
+            presentCategory,
+            previousCategory,
+            breadcrumbs,
+        })
+    };
+
     changeCategory = (event) => {
         const categoryId = parseInt(event.target.value, 10);
 
@@ -130,6 +150,7 @@ class App extends Component {
                     presentCategory={this.state.presentCategory}
                     previousCategory={this.state.previousCategory}
                     goBack={this.goBack}
+                    goToCategory={this.goToCategory}
                 />
 
                 <CategoriesList

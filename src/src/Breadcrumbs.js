@@ -35,13 +35,16 @@ const Breadcrumbs = (props) => (
         <ul>
             {
                 props.breadcrumbs.map( crumb => (
-                    <Crumb key={crumb}>
-                        { crumb } /&nbsp;
-                    </Crumb>
+                    <Button
+                        key={crumb}
+                        onClick={props.goToCategory}
+                        value={crumb}
+                    >
+                        { crumb }
+                    </Button>
                 ))
             }
         </ul>
-        Previous Category: <Button className="breadcrumb-item" onClick={props.goBack}><i>{ props.previousCategory } </i></Button> ----
         Present category: <strong>{ props.presentCategory }</strong>
     </BreadcrumbsWrapper>
 )
