@@ -1,9 +1,63 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import Requester from './helpers/Requester';
+import styled from 'styled-components';
 import "./App.css";
 
 import { categoriesEndpointInitialData } from './helpers/initial-data';
+
+
+const AppWrapper = styled.div`
+    text-align: center;
+`;
+
+const AppHeader = styled.div`
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+`;
+
+const AppTitle = styled.h1`
+    font-size: 1.5em;
+`;
+
+const AppIntro = styled.p`
+    font-size: large;
+`
+
+const Breadcrumbs = styled.div`
+    padding: 50px 0;
+    margin-bottom: 25px;
+    background-color: #ddd;
+
+    ul {
+        list-style: none;
+
+        li {
+            display: inline;
+        }
+    }
+`;
+
+const Img = styled.img`
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+
+    @keyframes App-logo-spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+`;
+
+
+
+
+
 
 class App extends Component {
     constructor() {
@@ -121,50 +175,50 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <h1 className="App-title">Welcome to React</h1>
-            </header>
-            <div className="breadcrumbs">
-                <ul>
+            <AppWrapper>
+                <AppHeader>
+                    <Img src={logo} alt="logo" />
+                    <AppTitle>Welcome to React</AppTitle>
+                </AppHeader>
+                <Breadcrumbs>
+                    <ul>
+                        {
+                            this.state.breadcrumb.map( crumb => (
+                                <li className="crumb" key={crumb}>
+                                    { crumb } /&nbsp;
+                                </li>
+                            ))
+                        }
+                    </ul>
+                    Previous Category: <button className="breadcrumb-item" onClick={this.goBack}><i>{ this.state.previousCategory } </i></button> ----
+                    Present category: <strong>{ this.state.presentCategory }</strong>
+                </Breadcrumbs>
+
+                <div className="categories">
                     {
-                        this.state.breadcrumb.map( crumb => (
-                            <li className="crumb" key={crumb}>
-                                { crumb } /&nbsp;
-                            </li>
+                        this.state.filteredCategories.map( (category, index) => (
+                            <button
+                                className="category"
+                                key={category.id}
+                                onClick={this.changeCategory}
+                                value={category.id}
+                                style={category.is_visible ? {color: 'black'} : {color: 'gray'}}>
+                                { category.name } { category.parent_id } : { category.id }
+                            </button>
                         ))
                     }
-                </ul>
-                Previous Category: <button className="breadcrumb-item" onClick={this.goBack}><i>{ this.state.previousCategory } </i></button> ----
-                Present category: <strong>{ this.state.presentCategory }</strong>
-            </div>
+                    <button
+                        className="category category-add">
+                        +
+                    </button>
+                </div>
 
-            <div className="categories">
-                {
-                    this.state.filteredCategories.map( (category, index) => (
-                        <button
-                            className="category"
-                            key={category.id}
-                            onClick={this.changeCategory}
-                            value={category.id}
-                            style={category.is_visible ? {color: 'black'} : {color: 'gray'}}>
-                            { category.name } { category.parent_id } : { category.id }
-                        </button>
-                    ))
-                }
-                <button
-                    className="category category-add">
-                    +
-                </button>
-            </div>
-
-            <p className="App-intro">
-                To get started, edit <code>src/App.js</code> and save to reload.
-            </p>
-            <button onClick={this.getCategories}>get all categories</button>
-            <button onClick={this.getCategory} value={16}>get one category</button>
-            </div>
+                <AppIntro>
+                    To get started, edit <code>src/App.js</code> and save to reload.
+                </AppIntro>
+                <button onClick={this.getCategories}>get all categories</button>
+                <button onClick={this.getCategory} value={16}>get one category</button>
+            </AppWrapper>
         );
     }
 }
