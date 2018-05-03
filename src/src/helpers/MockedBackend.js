@@ -1,17 +1,6 @@
 import { UNAUTHORIZED, RESOURCE_NOT_FOUND } from "./mocked-responses";
 
 export class MockedBackend {
-        // these are method for making things in localstorage
-        // localStorage.setItem();
-        // localStorage.getItem();
-        // localStorage.removeItem();
-
-        // these are method to serialize and normalize data from and to localstorage
-        // JSON.parse();
-        // JSON.stringify();
-
-    // TODO: Implement using basic auth to login to API
-
     // createCategory(category) {
     //     return axios.post(this.categoryRESTEndpoint, category);
     // }
@@ -52,16 +41,9 @@ export class MockedBackend {
                 const categoriesLS = localStorage.getItem('categories');
                 const categoriesJSON = JSON.parse(categoriesLS);
 
-                console.log(categoriesJSON.data.categories);
-
-                const category = categoriesJSON.data.categories.filter( category => {
-                    console.log(category.id + " ? " + id);
-                    return category.id === id;
-                })[0];
-
+                const category = categoriesJSON.data.categories.filter(category => category.id === id)[0];
 
                 if (category) {
-
                     const response = {
                         version: "v1",
                         success: true,

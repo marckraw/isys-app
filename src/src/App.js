@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import Requester from './helpers/Requester';
 import styled from 'styled-components';
-import "./App.css";
+import ButtonReact from './Button';
 
 import { categoriesEndpointInitialData } from './helpers/initial-data';
 
@@ -54,9 +54,17 @@ const Img = styled.img`
     }
 `;
 
+const Button = styled.button`
+    display: inline-block;
+    padding: 25px 50px;
+    margin: 10px;
+    background-color: #eee;
+    cursor: pointer;
 
-
-
+    &:hover {
+        background-color: #ddd;
+    }
+`;
 
 
 class App extends Component {
@@ -69,7 +77,6 @@ class App extends Component {
     }
 
     state = {
-        someState: "asdasdas",
         categories: [],
         filteredCategories: [],
         presentCategory: 1,
@@ -103,19 +110,12 @@ class App extends Component {
     changeCategory = (event) => {
         const categoryId = parseInt(event.target.value, 10);
 
-        console.log(categoryId)
-
         const previousCategory = this.state.presentCategory;
         const presentCategory = categoryId;
 
         const filteredCategories = this.filterCategories(
             this.state.categories, presentCategory,
         );
-
-        console.log(filteredCategories);
-
-        console.log(previousCategory);
-        console.log(presentCategory);
 
         const breadcrumb = this.state.breadcrumb;
         breadcrumb.push(previousCategory);
@@ -135,19 +135,11 @@ class App extends Component {
     getCategories = () => {
         this.requester.getCategories().then(
             response => {
+                console.log(response);
 
                 const filteredCategories = this.filterCategories(
                     response.data.categories, this.state.presentCategory,
                 );
-
-                const presentCategory = this.state.presentCategory;
-                const previousCategory = this.state.previousCategory;
-
-                console.log("Filtered categories: ");
-                console.log(filteredCategories);
-
-                console.log("All categories: ");
-                console.log(response);
 
                 this.setState({
                     categories: response.data.categories,
@@ -171,8 +163,6 @@ class App extends Component {
         );
     };
 
-
-
     render() {
         return (
             <AppWrapper>
@@ -190,34 +180,31 @@ class App extends Component {
                             ))
                         }
                     </ul>
-                    Previous Category: <button className="breadcrumb-item" onClick={this.goBack}><i>{ this.state.previousCategory } </i></button> ----
+                    Previous Category: <Button className="breadcrumb-item" onClick={this.goBack}><i>{ this.state.previousCategory } </i></Button> ----
                     Present category: <strong>{ this.state.presentCategory }</strong>
                 </Breadcrumbs>
 
-                <div className="categories">
+                <div>
                     {
                         this.state.filteredCategories.map( (category, index) => (
-                            <button
-                                className="category"
+                            <Button
                                 key={category.id}
                                 onClick={this.changeCategory}
                                 value={category.id}
                                 style={category.is_visible ? {color: 'black'} : {color: 'gray'}}>
                                 { category.name } { category.parent_id } : { category.id }
-                            </button>
+                            </Button>
                         ))
                     }
-                    <button
-                        className="category category-add">
-                        +
-                    </button>
+                    <ButtonReact></ButtonReact>
+                    <Button> + </Button>
                 </div>
 
                 <AppIntro>
                     To get started, edit <code>src/App.js</code> and save to reload.
                 </AppIntro>
-                <button onClick={this.getCategories}>get all categories</button>
-                <button onClick={this.getCategory} value={16}>get one category</button>
+                <Button onClick={this.getCategories}>get all categories</Button>
+                <Button onClick={this.getCategory} value={16}>get one category</Button>
             </AppWrapper>
         );
     }
