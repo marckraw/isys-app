@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const BreadcrumbsStyled = styled.div`
+const BreadcrumbsWrapper = styled.div`
     padding: 50px 0;
     margin-bottom: 25px;
     background-color: #ddd;
@@ -31,7 +31,7 @@ const Crumb = styled.li``;
 
 
 const Breadcrumbs = (props) => (
-    <BreadcrumbsStyled>
+    <BreadcrumbsWrapper>
         <ul>
             {
                 props.breadcrumbs.map( crumb => (
@@ -43,7 +43,7 @@ const Breadcrumbs = (props) => (
         </ul>
         Previous Category: <Button className="breadcrumb-item" onClick={props.goBack}><i>{ props.previousCategory } </i></Button> ----
         Present category: <strong>{ props.presentCategory }</strong>
-    </BreadcrumbsStyled>
+    </BreadcrumbsWrapper>
 )
 
 export default Breadcrumbs;

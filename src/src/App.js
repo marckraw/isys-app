@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import ButtonReact from './Button';
 import Breadcrumbs from './Breadcrumbs';
+import CategoriesList from "./CategoriesList";
 
 import { categoriesEndpointInitialData } from './helpers/initial-data';
 
@@ -11,10 +12,6 @@ import { categoriesEndpointInitialData } from './helpers/initial-data';
 const AppWrapper = styled.div`
     text-align: center;
 `;
-
-const AppIntro = styled.p`
-    font-size: large;
-`
 
 const Button = styled.button`
     display: inline-block;
@@ -27,8 +24,6 @@ const Button = styled.button`
         background-color: #ddd;
     }
 `;
-
-const Category = styled.div``;
 
 
 class App extends Component {
@@ -137,25 +132,11 @@ class App extends Component {
                     goBack={this.goBack}
                 />
 
-                <Category>
-                    {
-                        this.state.filteredCategories.map( (category, index) => (
-                            <Button
-                                key={category.id}
-                                onClick={this.changeCategory}
-                                value={category.id}
-                                style={category.is_visible ? {color: 'black'} : {color: 'gray'}}>
-                                { category.name } { category.parent_id } : { category.id }
-                            </Button>
-                        ))
-                    }
-                    <ButtonReact></ButtonReact>
-                    <Button> + </Button>
-                </Category>
+                <CategoriesList
+                    filteredCategories={this.state.filteredCategories}
+                    changeCategory={this.changeCategory}
+                />
 
-                <AppIntro>
-                    To get started, edit <code>src/App.js</code> and save to reload.
-                </AppIntro>
                 <Button onClick={this.getCategories}>get all categories</Button>
                 <Button onClick={this.getCategory} value={16}>get one category</Button>
             </AppWrapper>
