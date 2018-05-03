@@ -19,9 +19,8 @@ class App extends Component {
         categories: [],
         filteredCategories: [],
         presentCategory: 1,
-        previousCategory: 1,
-        presentCategoryName: "",
-        previousCategoryName: "",
+        previousCategory: null,
+        breadcrumb: [],
     };
 
     componentDidMount = () => {
@@ -30,19 +29,22 @@ class App extends Component {
 
 
     goBack = () => {
-        const categoryId = this.state.previousCategory;
+        if (this.state.breadcrumb.length !== 0) {
+            const breadcrumb = this.state.breadcrumb;
+            const presentCategory = breadcrumb.pop();
+            const previousCategory = breadcrumb[breadcrumb.length-1];
 
-        const filteredCategories = this.state.categories
-            .filter( category => category.parent_id === categoryId );
+            const filteredCategories = this.state.categories
+                .filter( category => category.parent_id === presentCategory );
 
             this.setState({
                 filteredCategories,
-                previousCategory: this.state.presentCategory,
-                presentCategory: categoryId,
+                presentCategory,
+                previousCategory,
+                breadcrumb,
             })
+        }
     }
-
-
 
     changeCategory = (event) => {
         const categoryId = parseInt(event.target.value, 10);
@@ -51,67 +53,57 @@ class App extends Component {
 
         const previousCategory = this.state.presentCategory;
         const presentCategory = categoryId;
-        const categoryNames = this.getCategoriesNames(this.state.categories, {presentCategory, previousCategory});
 
-        const filteredCategories = this.state.categories
-                    .filter( category => category.parent_id === presentCategory);
+        const filteredCategories = this.filterCategories(
+            this.state.categories, presentCategory,
+        );
 
         console.log(filteredCategories);
 
         console.log(previousCategory);
         console.log(presentCategory);
-        console.log(categoryNames);
 
+        const breadcrumb = this.state.breadcrumb;
+        breadcrumb.push(previousCategory);
 
         this.setState({
             presentCategory,
             previousCategory,
-            previousCategoryName: categoryNames.previousCategoryName,
-            presentCategoryName: categoryNames.presentCategoryName,
             filteredCategories,
+            breadcrumb,
         })
     };
 
-    getCategoriesNames = (categories, categoryIds) => {
-        const presentCategoryName = categories.find( category => category.id === categoryIds.presentCategory).name;
-        const previousCategoryName = categories.find( category => category.id === categoryIds.previousCategory).name;
-
-        return {
-            presentCategoryName,
-            previousCategoryName,
-        }
+    filterCategories = (categories, id) => {
+        return categories.filter(category => category.parent_id === id);
     }
 
     getCategories = () => {
-        console.log("changing staste !!!");
-
         this.requester.getCategories().then(
             response => {
 
-                const filteredCategories = response.data.categories
-                    .filter( category => category.parent_id === this.state.presentCategory);
+                const filteredCategories = this.filterCategories(
+                    response.data.categories, this.state.presentCategory,
+                );
 
                 const presentCategory = this.state.presentCategory;
                 const previousCategory = this.state.previousCategory;
 
+                console.log("Filtered categories: ");
+                console.log(filteredCategories);
 
-                const categoryNames = this.getCategoriesNames(response.data.categories, {presentCategory, previousCategory});
+                console.log("All categories: ");
+                console.log(response);
 
                 this.setState({
                     categories: response.data.categories,
                     filteredCategories,
-                    previousCategoryName: categoryNames.previousCategoryName,
-                    presentCategoryName: categoryNames.presentCategoryName,
                 });
             },
             error => console.log(error),
             () => console.log("completed ? "),
         );
     };
-
-    onClickChangeLocalStorage = () => {
-        localStorage.setItem('categories', 'something funny');
-    }
 
     getCategory = (event) => {
         const id = parseInt(event.target.value, 10);
@@ -135,8 +127,17 @@ class App extends Component {
                 <h1 className="App-title">Welcome to React</h1>
             </header>
             <div className="breadcrumbs">
-                Previous Category: <button className="breadcrumb-item" onClick={this.goBack}><i>{ this.state.previousCategoryName } </i></button> ----
-                Present category: <strong>{ this.state.presentCategoryName }</strong>
+                <ul>
+                    {
+                        this.state.breadcrumb.map( crumb => (
+                            <li className="crumb" key={crumb}>
+                                { crumb } /&nbsp;
+                            </li>
+                        ))
+                    }
+                </ul>
+                Previous Category: <button className="breadcrumb-item" onClick={this.goBack}><i>{ this.state.previousCategory } </i></button> ----
+                Present category: <strong>{ this.state.presentCategory }</strong>
             </div>
 
             <div className="categories">
@@ -146,7 +147,8 @@ class App extends Component {
                             className="category"
                             key={category.id}
                             onClick={this.changeCategory}
-                            value={category.id}>
+                            value={category.id}
+                            style={category.is_visible ? {color: 'black'} : {color: 'gray'}}>
                             { category.name } { category.parent_id } : { category.id }
                         </button>
                     ))
@@ -160,8 +162,7 @@ class App extends Component {
             <p className="App-intro">
                 To get started, edit <code>src/App.js</code> and save to reload.
             </p>
-            <button onClick={this.getCategories}>click me!</button>
-            <button onClick={this.onClickChangeLocalStorage}>change local storage</button>
+            <button onClick={this.getCategories}>get all categories</button>
             <button onClick={this.getCategory} value={16}>get one category</button>
             </div>
         );

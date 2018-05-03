@@ -29,8 +29,6 @@ class Requester {
             password: 'gBict?3J',
         };
 
-        console.log("from get categories requestesr");
-
         return this.mockedBackend.getCategories(auth);
 
 
