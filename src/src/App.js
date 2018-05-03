@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import Requester from './helpers/Requester';
 import styled from 'styled-components';
+
 import ButtonReact from './Button';
+import Breadcrumbs from './Breadcrumbs';
 
 import { categoriesEndpointInitialData } from './helpers/initial-data';
 
@@ -11,48 +12,9 @@ const AppWrapper = styled.div`
     text-align: center;
 `;
 
-const AppHeader = styled.div`
-    background-color: #222;
-    height: 150px;
-    padding: 20px;
-    color: white;
-`;
-
-const AppTitle = styled.h1`
-    font-size: 1.5em;
-`;
-
 const AppIntro = styled.p`
     font-size: large;
 `
-
-const Breadcrumbs = styled.div`
-    padding: 50px 0;
-    margin-bottom: 25px;
-    background-color: #ddd;
-
-    ul {
-        list-style: none;
-
-        li {
-            display: inline;
-        }
-    }
-`;
-
-const Img = styled.img`
-    animation: App-logo-spin infinite 20s linear;
-    height: 80px;
-
-    @keyframes App-logo-spin {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
-`;
 
 const Button = styled.button`
     display: inline-block;
@@ -65,6 +27,8 @@ const Button = styled.button`
         background-color: #ddd;
     }
 `;
+
+const Category = styled.div``;
 
 
 class App extends Component {
@@ -81,7 +45,7 @@ class App extends Component {
         filteredCategories: [],
         presentCategory: 1,
         previousCategory: null,
-        breadcrumb: [],
+        breadcrumbs: [],
     };
 
     componentDidMount = () => {
@@ -90,10 +54,10 @@ class App extends Component {
 
 
     goBack = () => {
-        if (this.state.breadcrumb.length !== 0) {
-            const breadcrumb = this.state.breadcrumb;
-            const presentCategory = breadcrumb.pop();
-            const previousCategory = breadcrumb[breadcrumb.length-1];
+        if (this.state.breadcrumbs.length !== 0) {
+            const breadcrumbs = this.state.breadcrumbs;
+            const presentCategory = breadcrumbs.pop();
+            const previousCategory = breadcrumbs[breadcrumbs.length-1];
 
             const filteredCategories = this.state.categories
                 .filter( category => category.parent_id === presentCategory );
@@ -102,7 +66,7 @@ class App extends Component {
                 filteredCategories,
                 presentCategory,
                 previousCategory,
-                breadcrumb,
+                breadcrumbs,
             })
         }
     }
@@ -117,14 +81,14 @@ class App extends Component {
             this.state.categories, presentCategory,
         );
 
-        const breadcrumb = this.state.breadcrumb;
-        breadcrumb.push(previousCategory);
+        const breadcrumbs = this.state.breadcrumbs;
+        breadcrumbs.push(previousCategory);
 
         this.setState({
             presentCategory,
             previousCategory,
             filteredCategories,
-            breadcrumb,
+            breadcrumbs,
         })
     };
 
@@ -166,25 +130,14 @@ class App extends Component {
     render() {
         return (
             <AppWrapper>
-                <AppHeader>
-                    <Img src={logo} alt="logo" />
-                    <AppTitle>Welcome to React</AppTitle>
-                </AppHeader>
-                <Breadcrumbs>
-                    <ul>
-                        {
-                            this.state.breadcrumb.map( crumb => (
-                                <li className="crumb" key={crumb}>
-                                    { crumb } /&nbsp;
-                                </li>
-                            ))
-                        }
-                    </ul>
-                    Previous Category: <Button className="breadcrumb-item" onClick={this.goBack}><i>{ this.state.previousCategory } </i></Button> ----
-                    Present category: <strong>{ this.state.presentCategory }</strong>
-                </Breadcrumbs>
+                <Breadcrumbs
+                    breadcrumbs={this.state.breadcrumbs}
+                    presentCategory={this.state.presentCategory}
+                    previousCategory={this.state.previousCategory}
+                    goBack={this.goBack}
+                />
 
-                <div>
+                <Category>
                     {
                         this.state.filteredCategories.map( (category, index) => (
                             <Button
@@ -198,7 +151,7 @@ class App extends Component {
                     }
                     <ButtonReact></ButtonReact>
                     <Button> + </Button>
-                </div>
+                </Category>
 
                 <AppIntro>
                     To get started, edit <code>src/App.js</code> and save to reload.
