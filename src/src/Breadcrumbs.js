@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const BreadcrumbsWrapper = styled.div`
     padding: 50px 0;
@@ -48,5 +49,12 @@ const Breadcrumbs = (props) => (
         Present category: <strong>{ props.presentCategory }</strong>
     </BreadcrumbsWrapper>
 )
+
+Breadcrumbs.propTypes = {
+    breadcrumbs: PropTypes.array.isRequired,
+    presentCategory: PropTypes.number.isRequired,
+    goBack: PropTypes.func.isRequired,
+    goToCategory: PropTypes.func.isRequired,
+};
 
 export default Breadcrumbs;

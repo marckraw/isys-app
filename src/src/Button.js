@@ -17,6 +17,6 @@ const ButtonReact = () => (
     <Button>
         something
     </Button>
-)
+);
 
 export default ButtonReact;

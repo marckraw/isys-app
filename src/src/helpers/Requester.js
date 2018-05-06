@@ -5,6 +5,7 @@ class Requester {
     constructor() {
         /* when the CORS and proxy problem will be solved */
         // this.categoryRESTEndpoint = `/api/categories`;
+        this.categoryRESTEndpoint = `https://cors-anywhere.herokuapp.com/http://dotnet.demos.i-sklep.pl/rest_api/shop_api/v1/categories`;
 
         this.mockedBackend = new MockedBackend();
     }
@@ -29,10 +30,14 @@ class Requester {
             password: 'gBict?3J',
         };
 
-        return this.mockedBackend.getCategories(auth);
+        var username = auth.login;
+        var password = auth.password;
+        var basicAuth = 'Basic ' + btoa(username + ':' + password)
+
+        // return this.mockedBackend.getCategories(auth);
 
 
-        // return axios.get(this.categoryRESTEndpoint, auth);
+        return axios.get(this.categoryRESTEndpoint, { headers: {'Authorization': basicAuth } });
     }
 
     getCategory(id) {

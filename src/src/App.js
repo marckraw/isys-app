@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import ButtonReact from './Button';
 import Breadcrumbs from './Breadcrumbs';
 import CategoriesList from "./CategoriesList";
+import Loader from './Loader';
 
 import { categoriesEndpointInitialData } from './helpers/initial-data';
 
@@ -41,6 +42,7 @@ class App extends Component {
         presentCategory: 1,
         previousCategory: null,
         breadcrumbs: [],
+        categoriesLoaded: false,
     };
 
     componentDidMount = () => {
@@ -117,12 +119,15 @@ class App extends Component {
                 console.log(response);
 
                 const filteredCategories = this.filterCategories(
-                    response.data.categories, this.state.presentCategory,
+                    response.data.data.categories, this.state.presentCategory,
                 );
 
+                const categoriesLoaded = true;
+
                 this.setState({
-                    categories: response.data.categories,
+                    categories: response.data.data.categories,
                     filteredCategories,
+                    categoriesLoaded,
                 });
             },
             error => console.log(error),
@@ -148,15 +153,19 @@ class App extends Component {
                 <Breadcrumbs
                     breadcrumbs={this.state.breadcrumbs}
                     presentCategory={this.state.presentCategory}
-                    previousCategory={this.state.previousCategory}
                     goBack={this.goBack}
                     goToCategory={this.goToCategory}
                 />
 
-                <CategoriesList
-                    filteredCategories={this.state.filteredCategories}
-                    changeCategory={this.changeCategory}
-                />
+                { this.state.categories.length !== 0 ? (
+                    <CategoriesList
+                        filteredCategories={this.state.filteredCategories}
+                        changeCategory={this.changeCategory}
+                    />
+                    ) : (
+                        <Loader />
+                    )
+                }
 
                 <Button onClick={this.getCategories}>get all categories</Button>
                 <Button onClick={this.getCategory} value={16}>get one category</Button>

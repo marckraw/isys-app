@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const CategoriesListWrapper = styled.div``;
 
@@ -31,5 +32,10 @@ const CategoriesList = (props) => (
         <Button> + </Button>
     </CategoriesListWrapper>
 )
+
+CategoriesList.propTypes = {
+    changeCategory: PropTypes.func.isRequired,
+    filteredCategories: PropTypes.array.isRequired,
+};
 
 export default CategoriesList;
