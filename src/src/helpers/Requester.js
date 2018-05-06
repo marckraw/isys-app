@@ -3,14 +3,21 @@ import { MockedBackend } from './MockedBackend';
 
 class Requester {
     constructor() {
-        /* when the CORS and proxy problem will be solved */
-        // this.categoryRESTEndpoint = `/api/categories`;
+        // this.mockedBackend = new MockedBackend();
+
         this.categoryRESTEndpoint = `https://cors-anywhere.herokuapp.com/http://dotnet.demos.i-sklep.pl/rest_api/shop_api/v1/categories`;
 
-        this.mockedBackend = new MockedBackend();
-    }
+        const auth = {
+            login: 'rest',
+            password: 'gBict?3J',
+        };
 
-    // TODO: Implement using basic auth to login to API
+        const username = auth.login;
+        const password = auth.password;
+        const basicAuth = 'Basic ' + btoa(username + ':' + password)
+
+        axios.defaults.headers.common['Authorization'] = basicAuth;
+    }
 
     createCategory(category) {
         return axios.post(this.categoryRESTEndpoint, category);
@@ -25,31 +32,11 @@ class Requester {
     }
 
     getCategories() {
-        const auth = {
-            login: 'rest',
-            password: 'gBict?3J',
-        };
-
-        var username = auth.login;
-        var password = auth.password;
-        var basicAuth = 'Basic ' + btoa(username + ':' + password)
-
-        // return this.mockedBackend.getCategories(auth);
-
-
-        return axios.get(this.categoryRESTEndpoint, { headers: {'Authorization': basicAuth } });
+        return axios.get(this.categoryRESTEndpoint);
     }
 
     getCategory(id) {
-        const auth = {
-            login: 'rest',
-            password: 'gBict?3J',
-        };
-
-        return this.mockedBackend.getCategory(auth, id);
-
-
-        // return axios.get(this.categoryRESTEndpoint, auth);
+        return axios.get(`${this.categoryRESTEndpoint}/${id}`);
     }
 };
 

@@ -18,24 +18,26 @@ const Button = styled.button`
 
 const CategoriesList = (props) => (
     <CategoriesListWrapper>
-        {
-            props.filteredCategories.map( (category, index) => (
-                <Button
-                    key={category.id}
-                    onClick={props.changeCategory}
-                    value={category.id}
-                    style={category.is_visible ? {color: 'black'} : {color: 'gray'}}>
-                    { category.name } { category.parent_id } : { category.id }
-                </Button>
-            ))
-        }
-        <Button> + </Button>
+    {
+        props.filteredCategories.map( (category, index) => (
+            <Button
+                key={category.id}
+                onClick={props.changeCategory}
+                value={category.id}
+                style={category.is_visible ? {color: 'black'} : {color: 'gray'}}>
+                { category.name } { category.parent_id } : { category.id }
+            </Button>
+        ))
+    }
+    <Button onClick={props.addCategory} value={props.presentCategory}> + </Button>
     </CategoriesListWrapper>
 )
 
 CategoriesList.propTypes = {
     changeCategory: PropTypes.func.isRequired,
     filteredCategories: PropTypes.array.isRequired,
+    addCategory: PropTypes.func.isRequired,
+    presentCategory: PropTypes.number.isRequired,
 };
 
 export default CategoriesList;

@@ -6,6 +6,7 @@ import ButtonReact from './Button';
 import Breadcrumbs from './Breadcrumbs';
 import CategoriesList from "./CategoriesList";
 import Loader from './Loader';
+import AddCategory from './AddCategory';
 
 import { categoriesEndpointInitialData } from './helpers/initial-data';
 
@@ -43,6 +44,7 @@ class App extends Component {
         previousCategory: null,
         breadcrumbs: [],
         categoriesLoaded: false,
+        isAddCategoryOpened: false,
     };
 
     componentDidMount = () => {
@@ -109,6 +111,12 @@ class App extends Component {
         })
     };
 
+    addCategory = () => {
+        this.setState({
+            isAddCategoryOpened: !this.state.isAddCategoryOpened,
+        });
+    }
+
     filterCategories = (categories, id) => {
         return categories.filter(category => category.parent_id === id);
     }
@@ -161,6 +169,8 @@ class App extends Component {
                     <CategoriesList
                         filteredCategories={this.state.filteredCategories}
                         changeCategory={this.changeCategory}
+                        addCategory={this.addCategory}
+                        presentCategory={this.state.presentCategory}
                     />
                     ) : (
                         <Loader />
@@ -169,6 +179,13 @@ class App extends Component {
 
                 <Button onClick={this.getCategories}>get all categories</Button>
                 <Button onClick={this.getCategory} value={16}>get one category</Button>
+                <hr />
+
+                { this.state.isAddCategoryOpened && (
+                    <AddCategory
+                        parentId={this.state.presentCategory}
+                    />
+                )}
             </AppWrapper>
         );
     }
