@@ -27,7 +27,8 @@ const CategoriesList = (props) => (
                 changeCategory={props.changeCategory}
                 editCategory={props.editCategory}
                 removeCategory={props.removeCategory}
-                category={category}>
+                category={category}
+                openAddCategoryModal={props.openAddCategoryModal}>
             </CategoryButton>
         ))
     }

@@ -43,6 +43,10 @@ const EditButton = styled.button`
     }
 `;
 
+const Img = styled.img`
+    width: 12px;
+`
+
 const CategoryButton = ({ changeCategory, removeCategory, editCategory, category }) => (
     <CategoryButtonWrapper>
         <GotoButton
@@ -54,12 +58,12 @@ const CategoryButton = ({ changeCategory, removeCategory, editCategory, category
         <EditButton
             onClick={editCategory}
             value={category.id}>
-                <img width="12" src={editIcon} className="App-logo" alt="logo" />
+                <Img src={editIcon} alt="Click to edit category" />
         </EditButton>
         <RemoveButton
             onClick={removeCategory}
             value={category.id}>
-                <img width="12" src={deleteIcon} className="App-logo" alt="logo" />
+                <Img src={deleteIcon} alt="Click to remove category" />
         </RemoveButton>
     </CategoryButtonWrapper>
 );

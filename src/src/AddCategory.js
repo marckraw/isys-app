@@ -34,7 +34,7 @@ class AddCategory extends Component {
 
 
     onInputChange = (event) => {
-        const target = event.target;
+        const target = event.currentTarget;
         const name = target.name;
         let value;
 

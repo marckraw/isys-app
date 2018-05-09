@@ -22,8 +22,8 @@ class Requester {
         return axios.post(this.categoryRESTEndpoint, category);
     }
 
-    editCategory(categoryId) {
-        return axios.put(`${this.categoryRESTEndpoint}/${categoryId}`);
+    editCategory(category, categoryId) {
+        return axios.put(`${this.categoryRESTEndpoint}/${categoryId}`, category);
     }
 
     deleteCategory(categoryId) {

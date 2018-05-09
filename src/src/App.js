@@ -60,7 +60,7 @@ class App extends Component {
     }
 
     goToCategory = (event) => {
-        const categoryId = parseInt(event.target.value, 10);
+        const categoryId = parseInt(event.currentTarget.value, 10);
 
         let breadcrumbs = this.state.breadcrumbs;
         breadcrumbs = breadcrumbs.filter( crumb => crumb.id < categoryId );
@@ -82,7 +82,7 @@ class App extends Component {
     };
 
     changeCategory = (event) => {
-        const categoryId = parseInt(event.target.value, 10);
+        const categoryId = parseInt(event.currentTarget.value, 10);
 
         const previousCategoryName = this.state.categories.find( category => category.id === this.state.presentCategory.id).name
         const presentCategoryName = this.state.categories.find( category => category.id === categoryId).name
@@ -130,7 +130,6 @@ class App extends Component {
                 this.getCategories();
             },
             error => console.log(error),
-            () => console.log("completed"),
         );
     }
 
@@ -138,8 +137,25 @@ class App extends Component {
         console.log("editing category...");
     }
 
-    removeCategory = () => {
-        console.log("Removing category...");
+    removeCategory = (event) => {
+        const value = event.currentTarget.value;
+        const categoryId = parseInt(value, 10);
+
+        this.setState({
+            pendingAddingCategory: true,
+            categoriesLoaded: false,
+        });
+
+        this.requester.deleteCategory(categoryId).then(
+            response => {
+                this.setState({
+                    pendingAddingCategory: false,
+                });
+
+                this.getCategories();
+            },
+            error => console.log(error),
+        );
     }
 
     filterCategories = (categories, id) => {
@@ -164,7 +180,6 @@ class App extends Component {
                 });
             },
             error => console.log(error),
-            () => console.log("completed ? "),
         );
     };
 
