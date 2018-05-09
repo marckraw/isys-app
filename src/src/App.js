@@ -102,9 +102,7 @@ class App extends Component {
             previousCategory,
             filteredCategories,
             breadcrumbs,
-        }, () => {
-            console.log(this.state);
-        })
+        });
     };
 
     openAddCategoryModal = () => {
@@ -134,6 +132,14 @@ class App extends Component {
             error => console.log(error),
             () => console.log("completed"),
         );
+    }
+
+    editCategory = () => {
+        console.log("editing category...");
+    }
+
+    removeCategory = () => {
+        console.log("Removing category...");
     }
 
     filterCategories = (categories, id) => {
@@ -176,6 +182,8 @@ class App extends Component {
                     <CategoriesList
                         filteredCategories={this.state.filteredCategories}
                         changeCategory={this.changeCategory}
+                        editCategory={this.editCategory}
+                        removeCategory={this.removeCategory}
                         openAddCategoryModal={this.openAddCategoryModal}
                         presentCategory={this.state.presentCategory}
                     />

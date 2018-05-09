@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import CategoryButton from './CategoryButton';
+
 const CategoriesListWrapper = styled.div``;
 
 const Button = styled.button`
@@ -20,13 +22,13 @@ const CategoriesList = (props) => (
     <CategoriesListWrapper>
     {
         props.filteredCategories.map( (category, index) => (
-            <Button
+            <CategoryButton
                 key={category.id}
-                onClick={props.changeCategory}
-                value={category.id}
-                style={category.is_visible ? {color: 'black'} : {color: 'gray'}}>
-                { category.name } { category.parent_id } : { category.id }
-            </Button>
+                changeCategory={props.changeCategory}
+                editCategory={props.editCategory}
+                removeCategory={props.removeCategory}
+                category={category}>
+            </CategoryButton>
         ))
     }
     <Button onClick={props.openAddCategoryModal} value={props.presentCategory.id}> + </Button>
@@ -35,6 +37,8 @@ const CategoriesList = (props) => (
 
 CategoriesList.propTypes = {
     changeCategory: PropTypes.func.isRequired,
+    editCategory: PropTypes.func.isRequired,
+    removeCategory: PropTypes.func.isRequired,
     filteredCategories: PropTypes.array.isRequired,
     openAddCategoryModal: PropTypes.func.isRequired,
     presentCategory: PropTypes.object.isRequired,

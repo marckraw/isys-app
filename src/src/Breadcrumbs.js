@@ -28,6 +28,13 @@ const Button = styled.button`
     }
 `;
 
+const PresentCategory = styled.button`
+    display: inline-block;
+    padding: 25px 50px;
+    margin: 10px;
+    background-color: #ddd;
+`;
+
 
 const Breadcrumbs = (props) => (
     <BreadcrumbsWrapper>
@@ -43,8 +50,9 @@ const Breadcrumbs = (props) => (
                     </Button>
                 ))
             }
+            <PresentCategory>{ props.presentCategory.name }</PresentCategory>
         </ul>
-        Present category: <strong>{ props.presentCategory.name }</strong>
+
     </BreadcrumbsWrapper>
 )
 

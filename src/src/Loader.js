@@ -7,7 +7,7 @@ const LoaderWrapper = styled.div`
         font-size: 5px;
         position: relative;
         border: 1.1em solid rgba(255, 255, 255, 0.2);
-        border-left: 1.1em solid black;
+        border-left: 1.1em solid #ddd;
         transform: translateZ(0);
         animation: loadAnimation 1.1s infinite linear;
     }
