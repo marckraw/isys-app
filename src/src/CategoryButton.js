@@ -73,6 +73,7 @@ CategoryButton.propTypes = {
     editCategory: PropTypes.func.isRequired,
     removeCategory: PropTypes.func.isRequired,
     category: PropTypes.object.isRequired,
+    toggleAddCategoryModal: PropTypes.func.isRequired,
 };
 
 export default CategoryButton

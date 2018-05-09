@@ -28,11 +28,11 @@ const CategoriesList = (props) => (
                 editCategory={props.editCategory}
                 removeCategory={props.removeCategory}
                 category={category}
-                openAddCategoryModal={props.openAddCategoryModal}>
+                toggleAddCategoryModal={props.toggleAddCategoryModal}>
             </CategoryButton>
         ))
     }
-    <Button onClick={props.openAddCategoryModal} value={props.presentCategory.id}> + </Button>
+    <Button onClick={props.toggleAddCategoryModal} value={props.presentCategory.id}> + </Button>
     </CategoriesListWrapper>
 )
 
@@ -41,7 +41,7 @@ CategoriesList.propTypes = {
     editCategory: PropTypes.func.isRequired,
     removeCategory: PropTypes.func.isRequired,
     filteredCategories: PropTypes.array.isRequired,
-    openAddCategoryModal: PropTypes.func.isRequired,
+    toggleAddCategoryModal: PropTypes.func.isRequired,
     presentCategory: PropTypes.object.isRequired,
 };
 

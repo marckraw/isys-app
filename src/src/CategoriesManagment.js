@@ -8,11 +8,11 @@ import Loader from './Loader';
 import AddCategory from './AddCategory';
 
 
-const AppWrapper = styled.div`
+const CategoriesManagmentWrapper = styled.div`
     text-align: center;
 `;
 
-class App extends Component {
+class CategoriesManagment extends Component {
     constructor() {
         super();
 
@@ -22,14 +22,8 @@ class App extends Component {
     state = {
         categories: [],
         filteredCategories: [],
-        presentCategory: {
-            id: 1,
-            name: 'Root',
-        },
-        previousCategory: {
-            id: null,
-            name: null,
-        },
+        presentCategory: { id: 1, name: 'Root' },
+        previousCategory: { id: null, name: null },
         breadcrumbs: [],
         categoriesLoaded: false,
         isAddCategoryOpened: false,
@@ -84,8 +78,10 @@ class App extends Component {
     changeCategory = (event) => {
         const categoryId = parseInt(event.currentTarget.value, 10);
 
-        const previousCategoryName = this.state.categories.find( category => category.id === this.state.presentCategory.id).name
-        const presentCategoryName = this.state.categories.find( category => category.id === categoryId).name
+        const previousCategoryName = this.state.categories
+            .find( category => category.id === this.state.presentCategory.id).name
+        const presentCategoryName = this.state.categories
+            .find( category => category.id === categoryId).name
 
         const previousCategory = {id: this.state.presentCategory.id, name: previousCategoryName};
         const presentCategory = {id: categoryId, name: presentCategoryName};
@@ -94,8 +90,7 @@ class App extends Component {
             this.state.categories, presentCategory.id,
         );
 
-        const breadcrumbs = this.state.breadcrumbs;
-        breadcrumbs.push(previousCategory);
+        const breadcrumbs = [...this.state.breadcrumbs, previousCategory];
 
         this.setState({
             presentCategory,
@@ -105,7 +100,7 @@ class App extends Component {
         });
     };
 
-    openAddCategoryModal = () => {
+    toggleAddCategoryModal = () => {
         this.setState({
             isAddCategoryOpened: !this.state.isAddCategoryOpened,
         });
@@ -185,7 +180,7 @@ class App extends Component {
 
     render() {
         return (
-            <AppWrapper>
+            <CategoriesManagmentWrapper>
                 <Breadcrumbs
                     breadcrumbs={this.state.breadcrumbs}
                     presentCategory={this.state.presentCategory}
@@ -199,7 +194,7 @@ class App extends Component {
                         changeCategory={this.changeCategory}
                         editCategory={this.editCategory}
                         removeCategory={this.removeCategory}
-                        openAddCategoryModal={this.openAddCategoryModal}
+                        toggleAddCategoryModal={this.toggleAddCategoryModal}
                         presentCategory={this.state.presentCategory}
                     />
                     ) : (
@@ -215,9 +210,9 @@ class App extends Component {
                         addCategory={this.addCategory}
                     />
                 )}
-            </AppWrapper>
+            </CategoriesManagmentWrapper>
         );
     }
 }
 
-export default App;
+export default CategoriesManagment;
