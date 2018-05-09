@@ -37,22 +37,22 @@ const Breadcrumbs = (props) => (
             {
                 props.breadcrumbs.map( crumb => (
                     <Button
-                        key={crumb}
+                        key={crumb.id}
                         onClick={props.goToCategory}
-                        value={crumb}
+                        value={crumb.id}
                     >
-                        { crumb }
+                        { crumb.name }
                     </Button>
                 ))
             }
         </ul>
-        Present category: <strong>{ props.presentCategory }</strong>
+        Present category: <strong>{ props.presentCategory.name }</strong>
     </BreadcrumbsWrapper>
 )
 
 Breadcrumbs.propTypes = {
     breadcrumbs: PropTypes.array.isRequired,
-    presentCategory: PropTypes.number.isRequired,
+    presentCategory: PropTypes.object.isRequired,
     goBack: PropTypes.func.isRequired,
     goToCategory: PropTypes.func.isRequired,
 };

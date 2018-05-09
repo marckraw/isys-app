@@ -8,8 +8,6 @@ import CategoriesList from "./CategoriesList";
 import Loader from './Loader';
 import AddCategory from './AddCategory';
 
-import { categoriesEndpointInitialData } from './helpers/initial-data';
-
 
 const AppWrapper = styled.div`
     text-align: center;
@@ -32,16 +30,20 @@ class App extends Component {
     constructor() {
         super();
 
-        localStorage.setItem('categories', JSON.stringify(categoriesEndpointInitialData));
-
         this.requester = new Requester();
     }
 
     state = {
         categories: [],
         filteredCategories: [],
-        presentCategory: 1,
-        previousCategory: null,
+        presentCategory: {
+            id: 1,
+            name: 'Root',
+        },
+        previousCategory: {
+            id: null,
+            name: null,
+        },
         breadcrumbs: [],
         categoriesLoaded: false,
         isAddCategoryOpened: false,
@@ -75,13 +77,15 @@ class App extends Component {
         const categoryId = parseInt(event.target.value, 10);
 
         let breadcrumbs = this.state.breadcrumbs;
-        breadcrumbs = breadcrumbs.slice(0, breadcrumbs.indexOf(categoryId));
+        breadcrumbs = breadcrumbs.filter( crumb => crumb.id < categoryId );
 
-        const presentCategory = categoryId;
+        const presentCategoryName = this.state.categories.find( category => category.id === categoryId).name;
+
+        const presentCategory = {id: categoryId, name: presentCategoryName};
         const previousCategory = breadcrumbs[breadcrumbs.length-1];
 
         const filteredCategories = this.state.categories
-            .filter( category => category.parent_id === presentCategory );
+            .filter( category => category.parent_id === presentCategory.id );
 
         this.setState({
             filteredCategories,
@@ -94,11 +98,14 @@ class App extends Component {
     changeCategory = (event) => {
         const categoryId = parseInt(event.target.value, 10);
 
-        const previousCategory = this.state.presentCategory;
-        const presentCategory = categoryId;
+        const previousCategoryName = this.state.categories.find( category => category.id === this.state.presentCategory.id).name
+        const presentCategoryName = this.state.categories.find( category => category.id === categoryId).name
+
+        const previousCategory = {id: this.state.presentCategory.id, name: previousCategoryName};
+        const presentCategory = {id: categoryId, name: presentCategoryName};
 
         const filteredCategories = this.filterCategories(
-            this.state.categories, presentCategory,
+            this.state.categories, presentCategory.id,
         );
 
         const breadcrumbs = this.state.breadcrumbs;
@@ -109,6 +116,8 @@ class App extends Component {
             previousCategory,
             filteredCategories,
             breadcrumbs,
+        }, () => {
+            console.log(this.state);
         })
     };
 
@@ -137,7 +146,7 @@ class App extends Component {
                 this.getCategories();
             },
             error => console.log(error),
-            () => console.log("completed ? "),
+            () => console.log("completed"),
         );
     }
 
@@ -148,10 +157,8 @@ class App extends Component {
     getCategories = () => {
         this.requester.getCategories().then(
             response => {
-                console.log(response);
-
                 const filteredCategories = this.filterCategories(
-                    response.data.data.categories, this.state.presentCategory,
+                    response.data.data.categories, this.state.presentCategory.id,
                 );
 
                 const categoriesLoaded = true;
@@ -163,18 +170,6 @@ class App extends Component {
                     categoriesLoaded,
                     pendingAddingCategory,
                 });
-            },
-            error => console.log(error),
-            () => console.log("completed ? "),
-        );
-    };
-
-    getCategory = (event) => {
-        const id = parseInt(event.target.value, 10);
-
-        this.requester.getCategory(id).then(
-            response => {
-                console.log(response);
             },
             error => console.log(error),
             () => console.log("completed ? "),
@@ -203,13 +198,11 @@ class App extends Component {
                     )
                 }
 
-                <Button onClick={this.getCategories}>get all categories</Button>
-                <Button onClick={this.getCategory} value={16}>get one category</Button>
                 <hr />
 
                 { this.state.isAddCategoryOpened && (
                     <AddCategory
-                        parentId={this.state.presentCategory}
+                        parentId={this.state.presentCategory.id}
                         addCategory={this.addCategory}
                     />
                 )}
