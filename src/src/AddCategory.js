@@ -3,8 +3,6 @@ import Requester from './helpers/Requester';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import Loader from './Loader';
-
 const AddCategoryWrapper = styled.div`
     > form > div {
         padding: 10px;
@@ -100,7 +98,7 @@ class AddCategory extends Component {
                         <button>Close</button>
                     </div>
                 </form>
-         </AddCategoryWrapper>
+        </AddCategoryWrapper>
         );
     };
 }

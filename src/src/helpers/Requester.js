@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { MockedBackend } from './MockedBackend';
 
 class Requester {
     constructor() {

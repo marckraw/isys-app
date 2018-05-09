@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Requester from './helpers/Requester';
 import styled from 'styled-components';
 
-import ButtonReact from './Button';
 import Breadcrumbs from './Breadcrumbs';
 import CategoriesList from "./CategoriesList";
 import Loader from './Loader';
@@ -12,19 +11,6 @@ import AddCategory from './AddCategory';
 const AppWrapper = styled.div`
     text-align: center;
 `;
-
-const Button = styled.button`
-    display: inline-block;
-    padding: 25px 50px;
-    margin: 10px;
-    background-color: #eee;
-    cursor: pointer;
-
-    &:hover {
-        background-color: #ddd;
-    }
-`;
-
 
 class App extends Component {
     constructor() {

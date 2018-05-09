@@ -28,8 +28,6 @@ const Button = styled.button`
     }
 `;
 
-const Crumb = styled.li``;
-
 
 const Breadcrumbs = (props) => (
     <BreadcrumbsWrapper>
