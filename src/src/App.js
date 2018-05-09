@@ -45,6 +45,7 @@ class App extends Component {
         breadcrumbs: [],
         categoriesLoaded: false,
         isAddCategoryOpened: false,
+        pendingAddingCategory: false,
     };
 
     componentDidMount = () => {
@@ -111,10 +112,33 @@ class App extends Component {
         })
     };
 
-    addCategory = () => {
+    openAddCategoryModal = () => {
         this.setState({
             isAddCategoryOpened: !this.state.isAddCategoryOpened,
         });
+    }
+
+    addCategory = (categoryData) => {
+        this.setState({
+            pendingAddingCategory: true,
+            categoriesLoaded: false,
+        });
+
+        const data = {
+            'category': categoryData,
+        };
+
+        this.requester.createCategory(data).then(
+            response => {
+                this.setState({
+                    pendingAddingCategory: false,
+                });
+
+                this.getCategories();
+            },
+            error => console.log(error),
+            () => console.log("completed ? "),
+        );
     }
 
     filterCategories = (categories, id) => {
@@ -131,11 +155,13 @@ class App extends Component {
                 );
 
                 const categoriesLoaded = true;
+                const pendingAddingCategory = true;
 
                 this.setState({
                     categories: response.data.data.categories,
                     filteredCategories,
                     categoriesLoaded,
+                    pendingAddingCategory,
                 });
             },
             error => console.log(error),
@@ -165,11 +191,11 @@ class App extends Component {
                     goToCategory={this.goToCategory}
                 />
 
-                { this.state.categories.length !== 0 ? (
+                { this.state.categoriesLoaded && this.state.pendingAddingCategory ? (
                     <CategoriesList
                         filteredCategories={this.state.filteredCategories}
                         changeCategory={this.changeCategory}
-                        addCategory={this.addCategory}
+                        openAddCategoryModal={this.openAddCategoryModal}
                         presentCategory={this.state.presentCategory}
                     />
                     ) : (
@@ -184,6 +210,7 @@ class App extends Component {
                 { this.state.isAddCategoryOpened && (
                     <AddCategory
                         parentId={this.state.presentCategory}
+                        addCategory={this.addCategory}
                     />
                 )}
             </AppWrapper>

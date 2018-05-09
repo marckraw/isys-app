@@ -29,14 +29,14 @@ const CategoriesList = (props) => (
             </Button>
         ))
     }
-    <Button onClick={props.addCategory} value={props.presentCategory}> + </Button>
+    <Button onClick={props.openAddCategoryModal} value={props.presentCategory}> + </Button>
     </CategoriesListWrapper>
 )
 
 CategoriesList.propTypes = {
     changeCategory: PropTypes.func.isRequired,
     filteredCategories: PropTypes.array.isRequired,
-    addCategory: PropTypes.func.isRequired,
+    openAddCategoryModal: PropTypes.func.isRequired,
     presentCategory: PropTypes.number.isRequired,
 };
 

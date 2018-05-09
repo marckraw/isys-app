@@ -3,6 +3,8 @@ import Requester from './helpers/Requester';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import Loader from './Loader';
+
 const AddCategoryWrapper = styled.div`
     > form > div {
         padding: 10px;
@@ -29,6 +31,7 @@ class AddCategory extends Component {
         description: "",
         picture_filename: "",
         ordering: 1,
+        pendingAddingCategory: this.props.pendingAddingCategory,
     };
 
 
@@ -52,27 +55,15 @@ class AddCategory extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state);
+        const newCategoryData = this.state;
+        console.log(newCategoryData);
 
-        const data = {
-            'category': this.state,
-        };
-
-        this.requester.createCategory(data).then(
-            response => {
-                console.log(response);
-            },
-            error => console.log(error),
-            () => console.log("completed ? "),
-        );
-
+        this.props.addCategory(newCategoryData);
     }
 
     render() {
         return (
             <AddCategoryWrapper>
-                { this.props.parentId }
-
                 <form onSubmit={this.onSubmit}>
                     <div>
                         <label>Parent ID</label>
@@ -109,14 +100,14 @@ class AddCategory extends Component {
                         <button>Close</button>
                     </div>
                 </form>
-
-            </AddCategoryWrapper>
+         </AddCategoryWrapper>
         );
     };
 }
 
 AddCategory.propTypes = {
     parentId: PropTypes.number.isRequired,
+    addCategory: PropTypes.func.isRequired,
 };
 
 export default AddCategory;
