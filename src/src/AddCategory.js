@@ -12,7 +12,19 @@ const AddCategoryWrapper = styled.div`
     > form > div > label {
         margin-right: 40px;
     }
-`
+`;
+
+const Button = styled.button`
+    display: inline-block;
+    padding: 25px 50px;
+    margin: 10px;
+    background-color: #eee;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #ddd;
+    }
+`;
 
 
 class AddCategory extends Component {
@@ -93,8 +105,8 @@ class AddCategory extends Component {
                     </div>
 
                     <div>
-                        <input type="submit" value="Add" />
-                        <button>Close</button>
+                        <Button type="submit">Add</Button>
+                        <Button onClick={this.props.toggleAddCategoryModal}>Close</Button>
                     </div>
                 </form>
         </AddCategoryWrapper>

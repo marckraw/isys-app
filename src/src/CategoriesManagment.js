@@ -6,6 +6,7 @@ import Breadcrumbs from './Breadcrumbs';
 import CategoriesList from "./CategoriesList";
 import Loader from './Loader';
 import AddCategory from './AddCategory';
+import Modal from './Modal';
 
 
 const CategoriesManagmentWrapper = styled.div`
@@ -51,7 +52,7 @@ class CategoriesManagment extends Component {
                 breadcrumbs,
             })
         }
-    }
+    };
 
     goToCategory = (event) => {
         const categoryId = parseInt(event.currentTarget.value, 10);
@@ -104,9 +105,11 @@ class CategoriesManagment extends Component {
         this.setState({
             isAddCategoryOpened: !this.state.isAddCategoryOpened,
         });
-    }
+    };
 
     addCategory = (categoryData) => {
+        this.toggleAddCategoryModal();
+
         this.setState({
             pendingAddingCategory: true,
             categoriesLoaded: false,
@@ -126,11 +129,11 @@ class CategoriesManagment extends Component {
             },
             error => console.log(error),
         );
-    }
+    };
 
     editCategory = () => {
         console.log("editing category...");
-    }
+    };
 
     removeCategory = (event) => {
         const value = event.currentTarget.value;
@@ -151,11 +154,11 @@ class CategoriesManagment extends Component {
             },
             error => console.log(error),
         );
-    }
+    };
 
     filterCategories = (categories, id) => {
         return categories.filter(category => category.parent_id === id);
-    }
+    };
 
     getCategories = () => {
         this.requester.getCategories().then(
@@ -202,17 +205,19 @@ class CategoriesManagment extends Component {
                     )
                 }
 
-                <hr />
-
                 { this.state.isAddCategoryOpened && (
-                    <AddCategory
-                        parentId={this.state.presentCategory.id}
-                        addCategory={this.addCategory}
-                    />
+                    <Modal>
+                        <AddCategory
+                            parentId={this.state.presentCategory.id}
+                            addCategory={this.addCategory}
+                            toggleAddCategoryModal={this.toggleAddCategoryModal}/>
+                    </Modal>
                 )}
+
+
             </CategoriesManagmentWrapper>
         );
-    }
+    };
 }
 
 export default CategoriesManagment;

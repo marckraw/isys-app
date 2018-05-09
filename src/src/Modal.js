@@ -48,12 +48,11 @@ const Dialog = styled.div`
     background-color: white;
 `
 
-const Modal = (props) => (
+const Modal = ({ children }) => (
     <ModalOverlay>
         <Content>
             <Dialog>
-                { props.children }
-                this is from content in modal
+                { children }
             </Dialog>
         </Content>
     </ModalOverlay>
