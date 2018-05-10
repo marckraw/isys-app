@@ -7,8 +7,8 @@ class Requester {
         this.categoryRESTEndpoint = `https://cors-anywhere.herokuapp.com/http://dotnet.demos.i-sklep.pl/rest_api/shop_api/v1/categories`;
 
         const auth = {
-            login: 'rest',
-            password: 'gBict?3J',
+            login: process.env.REACT_APP_REST_API_USER,
+            password: process.env.REACT_APP_REST_API_PASS,
         };
 
         const username = auth.login;
