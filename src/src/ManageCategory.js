@@ -3,7 +3,7 @@ import Requester from './helpers/Requester';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const AddCategoryWrapper = styled.div`
+const ManageCategoryWrapper = styled.div`
     > form > div {
         padding: 10px;
         margin: 20px
@@ -27,7 +27,7 @@ const Button = styled.button`
 `;
 
 
-class AddCategory extends Component {
+class ManageCategory extends Component {
     constructor(props) {
         super(props);
 
@@ -41,7 +41,24 @@ class AddCategory extends Component {
         description: "",
         picture_filename: "",
         ordering: 1,
-        pendingAddingCategory: this.props.pendingAddingCategory,
+    };
+
+    componentDidMount = () => {
+        console.log(this.props.filteredCategories);
+        console.log(this.props.categoryId);
+        if (this.props.filteredCategories && this.props.categoryId) {
+            const category = this.props.filteredCategories.find( category => category.id === this.props.categoryId);
+
+            console.log(category);
+
+            this.setState({
+                name: category.name || '',
+                description: category.description || '',
+                picture_filename: category.picture_filename || '',
+                ordering: category.ordering || 1,
+                is_visible: category.is_visible || false,
+            });
+        }
     };
 
 
@@ -61,18 +78,18 @@ class AddCategory extends Component {
         this.setState({
             [name]: value,
         });
-    }
+    };
 
     onSubmit = (event) => {
         event.preventDefault();
         const newCategoryData = this.state;
 
-        this.props.addCategory(newCategoryData);
-    }
+        this.props.onConfirm(newCategoryData, this.props.categoryId);
+    };
 
     render() {
         return (
-            <AddCategoryWrapper>
+            <ManageCategoryWrapper>
                 <form onSubmit={this.onSubmit}>
                     <div>
                         <label>Parent ID</label>
@@ -81,7 +98,7 @@ class AddCategory extends Component {
 
                     <div>
                         <label>Is visible</label>
-                        <input name="is_visible" type="checkbox" value={this.state.is_visible} onChange={this.onInputChange} />
+                        <input name="is_visible" type="checkbox" checked={this.state.is_visible} onChange={this.onInputChange} />
                     </div>
 
                     <div>
@@ -105,18 +122,22 @@ class AddCategory extends Component {
                     </div>
 
                     <div>
-                        <Button type="submit">Add</Button>
-                        <Button onClick={this.props.toggleAddCategoryModal}>Close</Button>
+                        <Button type="submit">{ this.props.type === 'add' ? 'Add' : 'Edit'}</Button>
+                        <Button onClick={this.props.toggleModal}>Close</Button>
                     </div>
                 </form>
-        </AddCategoryWrapper>
+        </ManageCategoryWrapper>
         );
     };
 }
 
-AddCategory.propTypes = {
+ManageCategory.propTypes = {
+    type: PropTypes.string.isRequired,
     parentId: PropTypes.number.isRequired,
-    addCategory: PropTypes.func.isRequired,
+    onConfirm: PropTypes.func.isRequired,
+    toggleModal: PropTypes.func.isRequired,
+    filteredCategories: PropTypes.array,
+    categoryId: PropTypes.number,
 };
 
-export default AddCategory;
+export default ManageCategory;

@@ -47,7 +47,7 @@ const Img = styled.img`
     width: 12px;
 `
 
-const CategoryButton = ({ changeCategory, removeCategory, editCategory, category }) => (
+const CategoryButton = ({ changeCategory, removeCategory, editCategory, category, toggleEditCategoryModal}) => (
     <CategoryButtonWrapper>
         <GotoButton
             onClick={changeCategory}
@@ -56,7 +56,7 @@ const CategoryButton = ({ changeCategory, removeCategory, editCategory, category
             { category.name } { category.parent_id } : { category.id }
         </GotoButton>
         <EditButton
-            onClick={editCategory}
+            onClick={toggleEditCategoryModal}
             value={category.id}>
                 <Img src={editIcon} alt="Click to edit category" />
         </EditButton>
@@ -72,8 +72,9 @@ CategoryButton.propTypes = {
     changeCategory: PropTypes.func.isRequired,
     editCategory: PropTypes.func.isRequired,
     removeCategory: PropTypes.func.isRequired,
-    category: PropTypes.object.isRequired,
     toggleAddCategoryModal: PropTypes.func.isRequired,
+    toggleEditCategoryModal: PropTypes.func.isRequired,
+    category: PropTypes.object.isRequired,
 };
 
 export default CategoryButton

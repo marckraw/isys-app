@@ -28,7 +28,8 @@ const CategoriesList = (props) => (
                 editCategory={props.editCategory}
                 removeCategory={props.removeCategory}
                 category={category}
-                toggleAddCategoryModal={props.toggleAddCategoryModal}>
+                toggleAddCategoryModal={props.toggleAddCategoryModal}
+                toggleEditCategoryModal={props.toggleEditCategoryModal}>
             </CategoryButton>
         ))
     }
@@ -42,6 +43,7 @@ CategoriesList.propTypes = {
     removeCategory: PropTypes.func.isRequired,
     filteredCategories: PropTypes.array.isRequired,
     toggleAddCategoryModal: PropTypes.func.isRequired,
+    toggleEditCategoryModal: PropTypes.func.isRequired,
     presentCategory: PropTypes.object.isRequired,
 };
 
