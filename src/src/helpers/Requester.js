@@ -4,7 +4,7 @@ class Requester {
     constructor() {
         // this.mockedBackend = new MockedBackend();
 
-        this.categoryRESTEndpoint = `https://cors-anywhere.herokuapp.com/http://dotnet.demos.i-sklep.pl/rest_api/shop_api/v1/categories`;
+        this.categoryRESTEndpoint = process.env.REACT_APP_REST_API_URL;
 
         const auth = {
             login: process.env.REACT_APP_REST_API_USER,
