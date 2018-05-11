@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import deleteIcon from './delete.svg';
-import editIcon from './edit.svg';
+import deleteIcon from '../../delete.svg';
+import editIcon from '../../edit.svg';
 
 const CategoryButtonWrapper = styled.div`
     display: inline-block;

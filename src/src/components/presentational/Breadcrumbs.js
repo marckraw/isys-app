@@ -36,21 +36,21 @@ const PresentCategory = styled.button`
 `;
 
 
-const Breadcrumbs = (props) => (
+const Breadcrumbs = ({ breadcrumbs, goToCategory, presentCategory}) => (
     <BreadcrumbsWrapper>
         <ul>
             {
-                props.breadcrumbs.map( crumb => (
+                breadcrumbs.map( crumb => (
                     <Button
                         key={crumb.id}
-                        onClick={props.goToCategory}
+                        onClick={goToCategory}
                         value={crumb.id}
                     >
                         { crumb.name }
                     </Button>
                 ))
             }
-            <PresentCategory>{ props.presentCategory.name }</PresentCategory>
+            <PresentCategory>{ presentCategory.name }</PresentCategory>
         </ul>
 
     </BreadcrumbsWrapper>

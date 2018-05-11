@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import CategoriesManagment from './CategoriesManagment';
+import MainApp from './components/container/MainApp';
 
-ReactDOM.render(<CategoriesManagment />, document.getElementById('root'));
+ReactDOM.render(<MainApp />, document.getElementById('root'));

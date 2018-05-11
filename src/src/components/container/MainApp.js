@@ -1,42 +1,46 @@
 import React, { Component } from "react";
-import Requester from './helpers/Requester';
+import Requester from '../../helpers/Requester';
 import styled from 'styled-components';
 
-import Breadcrumbs from './Breadcrumbs';
-import CategoriesList from "./CategoriesList";
-import Loader from './Loader';
 import ManageCategory from './ManageCategory';
-import Modal from './Modal';
+
+import Breadcrumbs from '../presentational/Breadcrumbs';
+import CategoriesList from "../presentational/CategoriesList";
+import Loader from '../presentational/Loader';
+import Modal from '../presentational/Modal';
+import ErrorBox from '../presentational/ErrorBox';
 
 
-const CategoriesManagmentWrapper = styled.div`
+const MainAppWrapper = styled.div`
     text-align: center;
 `;
 
-class CategoriesManagment extends Component {
+class MainApp extends Component {
     constructor() {
         super();
-
         this.requester = new Requester();
     }
 
     state = {
         categories: [],
         filteredCategories: [],
+        breadcrumbs: [],
+
         presentCategory: { id: 1, name: 'Root' },
         previousCategory: { id: null, name: null },
-        breadcrumbs: [],
+
         categoriesLoaded: false,
         isAddCategoryOpened: false,
         isEditCategoryOpened: false,
         pendingManagingCategory: false,
-        editedCategoryId: 2,
+
+        editedCategoryId: 1,
+
+        isErrorHappened: false,
+        errorMessage: '',
     };
 
-    componentDidMount = () => {
-        this.getCategories();
-    };
-
+    componentDidMount = () => { this.getCategories() };
 
     goBack = () => {
         if (this.state.breadcrumbs.length !== 0) {
@@ -104,9 +108,7 @@ class CategoriesManagment extends Component {
     };
 
     toggleAddCategoryModal = () => {
-        this.setState({
-            isAddCategoryOpened: !this.state.isAddCategoryOpened,
-        });
+        this.setState({ isAddCategoryOpened: !this.state.isAddCategoryOpened });
     };
 
     toggleEditCategoryModal = (event) => {
@@ -122,26 +124,22 @@ class CategoriesManagment extends Component {
     addCategory = (categoryData) => {
         this.toggleAddCategoryModal();
 
-        console.log(categoryData);
-
         this.setState({
             pendingManagingCategory: true,
             categoriesLoaded: false,
         });
 
-        const data = {
-            'category': categoryData,
-        };
+        const data = { 'category': categoryData };
 
         this.requester.createCategory(data).then(
             response => {
-                this.setState({
-                    pendingManagingCategory: false,
-                });
-
+                this.setState({ pendingManagingCategory: false });
                 this.getCategories();
             },
-            error => console.log(error),
+            error => {
+                const errorMessage = error.response.data.error.reason_code;
+                this.setError(errorMessage);
+            },
         );
     };
 
@@ -152,19 +150,17 @@ class CategoriesManagment extends Component {
             categoriesLoaded: false,
         });
 
-        const data = {
-            'category': categoryData,
-        };
+        const data = { 'category': categoryData };
 
         this.requester.editCategory(data, categoryId).then(
             response => {
-                this.setState({
-                    pendingManagingCategory: false,
-                });
-
+                this.setState({ pendingManagingCategory: false });
                 this.getCategories();
             },
-            error => console.log(error),
+            error => {
+                const errorMessage = error.response.data.error.reason_code;
+                this.setError(errorMessage);
+            },
         );
     };
 
@@ -179,13 +175,13 @@ class CategoriesManagment extends Component {
 
         this.requester.deleteCategory(categoryId).then(
             response => {
-                this.setState({
-                    pendingManagingCategory: false,
-                });
-
+                this.setState({ pendingManagingCategory: false });
                 this.getCategories();
             },
-            error => console.log(error),
+            error => {
+                const errorMessage = error.response.data.error.reason_code;
+                this.setError(errorMessage);
+            },
         );
     };
 
@@ -210,13 +206,34 @@ class CategoriesManagment extends Component {
                     pendingManagingCategory,
                 });
             },
-            error => console.log(error),
+            error => {
+                const errorMessage = error.response.data.error.reason_code;
+                this.setError(errorMessage);
+            },
         );
     };
 
+    setError = (errorMessage) => {
+        this.setState({
+            isErrorHappened: true,
+            errorMessage,
+            pendingManagingCategory: true,
+            categoriesLoaded: true,
+        });
+
+        setTimeout(this.removeError, 3000);
+    }
+
+    removeError = () => {
+        this.setState({
+            isErrorHappened: false,
+            errorMessage: '',
+        });
+    }
+
     render() {
         return (
-            <CategoriesManagmentWrapper>
+            <MainAppWrapper>
                 <Breadcrumbs
                     breadcrumbs={this.state.breadcrumbs}
                     presentCategory={this.state.presentCategory}
@@ -224,18 +241,20 @@ class CategoriesManagment extends Component {
                     goToCategory={this.goToCategory}
                 />
 
-                { this.state.categoriesLoaded && this.state.pendingManagingCategory ? (
-                    <CategoriesList
-                        filteredCategories={this.state.filteredCategories}
-                        changeCategory={this.changeCategory}
-                        editCategory={this.editCategory}
-                        removeCategory={this.removeCategory}
-                        toggleAddCategoryModal={this.toggleAddCategoryModal}
-                        toggleEditCategoryModal={this.toggleEditCategoryModal}
-                        presentCategory={this.state.presentCategory}/>
-                    ) : (
-                        <Loader />
-                    )
+                { this.state.isErrorHappened ? (
+                        <ErrorBox message={this.state.errorMessage} />
+                    ) : this.state.categoriesLoaded && this.state.pendingManagingCategory ? (
+                        <CategoriesList
+                            filteredCategories={this.state.filteredCategories}
+                            changeCategory={this.changeCategory}
+                            editCategory={this.editCategory}
+                            removeCategory={this.removeCategory}
+                            toggleAddCategoryModal={this.toggleAddCategoryModal}
+                            toggleEditCategoryModal={this.toggleEditCategoryModal}
+                            presentCategory={this.state.presentCategory}/>
+                        ) : (
+                            <Loader />
+                        )
                 }
 
                 { this.state.isAddCategoryOpened && (
@@ -259,11 +278,9 @@ class CategoriesManagment extends Component {
                             toggleModal={this.toggleEditCategoryModal}/>
                     </Modal>
                 )}
-
-
-            </CategoriesManagmentWrapper>
+            </MainAppWrapper>
         );
     };
 }
 
-export default CategoriesManagment;
+export default MainApp;
